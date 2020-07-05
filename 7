@@ -26,3 +26,115 @@ void input_matr(int a[N][N])
 		for (j = 0;j < N;j++)
 			scanf("%d", &a[i][j]);
 }
+void zad_znak(const int x[], const int a[N][N])
+{
+int i, j,k;
+if (a[i][j]>0)
+{
+for (i = 1;i < N;i++) 
+{
+          for (j = 1;j < N;j++) 
+            { if (a[i][j]>0
+              {k=0
+              }
+Else k=1
+}
+Else for (i = 1;i < N;i++) 
+{
+          for (j = 1;j < N;j++) 
+            { if (a[i][j]<0
+              {k=0
+              }
+Else k=1
+}
+If (k=0)
+{ printf("Все элементы массива одного знака\n");
+}
+}
+
+
+void output(const int x[], const int a[N][N])
+{
+	int i, j;
+	FILE* fp;  
+	printf("Матрица А:\n");   
+	for (i = 0;i < N;i++) 
+	{
+		for (j = 0;j < N;j++)       
+			printf("%5d", a[i][j]);
+		printf("\n");
+	}   
+	printf("Массив Х:\n");  
+	for (i = 0; i < N; i++)    
+		printf("%d ", x[i]);   
+	printf("\n");
+	fp = fopen("out.txt", "w"); 
+	for(i=0;i<N;i++)              
+		fprintf(fp, "%5d", x[i]);                    
+	fclose(fp);
+}
+
+int* mas_min(int(*a)[N], int* x, void (*pfunc)(int[N][N]))
+{
+	int i, j, min;
+	pfunc(a);
+	min = a[0][0];
+	for (i = 0; i < N; i++)
+		for (j = 0; j < N; j++)
+			if (a[i][j] < min) min = a[i][j];
+	
+	for (i = 0; i < N; i++)
+	{
+		x[i] = -1;
+		j = 0;
+		while ((x[i] == -1) && (j < 5))
+		{
+			if (a[i][j] == min) x[i] = 1;
+			j++;
+		}
+	}
+	return x;
+}
+void sum_recurs(int a[N][N], int i, int& s)
+{
+	if (i < N)
+		if (a[0][i] % 2 == 0)
+		{
+			s = s + a[0][i];
+			return sum_recurs(a, i + 1, s);
+		}
+		else return sum_recurs(a, i + 1, s);
+}
+
+int s_sum(int a[N][N])
+{
+	int s, i;
+	s = 0;
+	i = 0;
+	while ((i < N) && (a[0][i] % 2 != 1))
+		i++;
+	i++;
+	sum_recurs(a, i, s);
+	return s;
+}
+
+int main() {
+	setlocale(LC_CTYPE, "");   
+	int a[N][N], x[N], c;   
+	void (*pfunc)(int[N][N]);  
+	do 
+	{
+		printf("Ввод матрицы:\n1 - с клавиатуры\n2- из файла\n");    
+		scanf("%d", &c); 
+	}
+	while (c != 1 && c != 2);   
+		switch (c)   
+	{     
+		case 1: pfunc=&input_matr;    
+		break;    
+		case 2: pfunc=&input_matr_file; 
+	}   
+	output(mas_min(a,x,pfunc),a);  
+	printf("\nY = %d", s_sum(a));
+	_getch(); 
+}
